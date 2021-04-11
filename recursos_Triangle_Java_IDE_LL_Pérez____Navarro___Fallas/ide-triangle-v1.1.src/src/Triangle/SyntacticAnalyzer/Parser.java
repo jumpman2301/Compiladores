@@ -303,6 +303,7 @@ public class Parser {
                 commandAST = new LetCommand(dAST, cAST, commandPos);
     }
     break;
+
     case Token.NOTHING: {
                 acceptIt();
                 finish(commandPos);
@@ -356,18 +357,7 @@ public class Parser {
       }
       break;
 
-    case Token.IF:
-      {
-        acceptIt();
-        Expression e1AST = parseExpression();
-        accept(Token.THEN);
-        Expression e2AST = parseExpression();
-        accept(Token.ELSE);
-        Expression e3AST = parseExpression();
-        finish(expressionPos);
-        expressionAST = new IfExpression(e1AST, e2AST, e3AST, expressionPos);
-      }
-      break;
+    
 
     default:
       expressionAST = parseSecondaryExpression();
