@@ -292,12 +292,23 @@ public class Parser {
         }
       }
       break;
-            case Token.NOTHING: {
+
+    case Token.LET: {
+                acceptIt();
+                Declaration dAST = parseDeclaration();
+                accept(Token.IN);
+                Command cAST = parseCommand();
+                accept(Token.END);
+                finish(commandPos);
+                commandAST = new LetCommand(dAST, cAST, commandPos);
+    }
+    break;
+    case Token.NOTHING: {
                 acceptIt();
                 finish(commandPos);
                 commandAST = new EmptyCommand(commandPos);
-                break;
-            }
+      break;
+    }
 
     case Token.SEMICOLON:
     case Token.END:
