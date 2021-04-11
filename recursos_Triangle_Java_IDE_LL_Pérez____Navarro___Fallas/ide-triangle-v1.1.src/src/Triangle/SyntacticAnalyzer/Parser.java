@@ -292,12 +292,12 @@ public class Parser {
         }
       }
       break;
-
-
-
-
-
-
+            case Token.NOTHING: {
+                acceptIt();
+                finish(commandPos);
+                commandAST = new EmptyCommand(commandPos);
+                break;
+            }
 
     case Token.SEMICOLON:
     case Token.END:

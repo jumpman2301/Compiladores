@@ -59,89 +59,107 @@ final class Token extends Object {
   // Token classes...
 
   public static final int
+ // literals, identifiers, operators...
+            INTLITERAL = 0,
+            CHARLITERAL = 1,
+            IDENTIFIER = 2,
+            OPERATOR = 3,
 
-    // literals, identifiers, operators...
-    INTLITERAL	= 0,
-    CHARLITERAL	= 1,
-    IDENTIFIER	= 2,
-    OPERATOR	= 3,
+            // reserved words - must be in alphabetical order...
+            AND = 4, //PROYECTO 1
+            ARRAY = 5,
+            //BEGIN		= 5, SE ELIMINA PROYECTO 1
+            CONST = 6,
+            DO = 7,
+            ELSE = 8,
+            ELSIF = 9,  //PROYECTO 1
+            END = 10,
+            FOR = 11,
+            FUNC = 12, //PROYECTO 1
+            IF = 13,
+            IN = 14,
+            LET = 15,
+            LOOP = 16, //PROYECTO 1
+            NOTHING = 17, //PROYECTO 1
+            OF = 18,
+            PRIVATE = 19, //PROYECTO 1
+            PROC = 20,
+            REC = 21, //PROYECTO 1
+            RECORD = 22,
+            THEN = 23,
+            TO = 24, //PROYECTO 1
+            TYPE = 25,
+            UNTIL = 26, //PROYECTO 1
+            VAR = 27,
+            WHILE = 28,
 
-    // reserved words - must be in alphabetical order...
-    ARRAY		= 4,
-    BEGIN		= 5,
-    CONST		= 6,
-    DO			= 7,
-    ELSE		= 8,
-    END			= 9,
-    FUNC		= 10,
-    IF			= 11,
-    IN			= 12,
-    LET			= 13,
-    OF			= 14,
-    PROC		= 15,
-    RECORD		= 16,
-    THEN		= 17,
-    TYPE		= 18,
-    VAR			= 19,
-    WHILE		= 20,
+            // punctuation...
+            DOT = 29,
+            COLON = 30,
+            SEMICOLON = 31,
+            COMMA = 32,
+            BECOMES = 33,
+            IS = 34,
+            DOUBLE_DOTS = 35, // PROYECTO 1
 
-    // punctuation...
-    DOT			= 21,
-    COLON		= 22,
-    SEMICOLON	= 23,
-    COMMA		= 24,
-    BECOMES		= 25,
-    IS			= 26,
+            // brackets...
+            LPAREN = 36,
+            RPAREN = 37,
+            LBRACKET = 38,
+            RBRACKET = 39,
+            LCURLY = 40,
+            RCURLY = 41,
 
-    // brackets...
-    LPAREN		= 27,
-    RPAREN		= 28,
-    LBRACKET	= 29,
-    RBRACKET	= 30,
-    LCURLY		= 31,
-    RCURLY		= 32,
-
-    // special tokens...
-    EOT			= 33,
-    ERROR		= 34;
-
+            // special tokens...
+            EOT = 42,
+            ERROR = 43;
   private static String[] tokenTable = new String[] {
-    "<int>",
-    "<char>",
-    "<identifier>",
-    "<operator>",
-    "array",
-    "begin",
-    "const",
-    "do",
-    "else",
-    "end",
-    "func",
-    "if",
-    "in",
-    "let",
-    "of",
-    "proc",
-    "record",
-    "then",
-    "type",
-    "var",
-    "while",
-    ".",
-    ":",
-    ";",
-    ",",
-    ":=",
-    "~",
-    "(",
-    ")",
-    "[",
-    "]",
-    "{",
-    "}",
-    "",
-    "<error>"
-  };
+            "<int>",
+            "<char>",
+            "<identifier>",
+            "<operator>",
+            "and", //PROYECTO 1
+            "array",
+            //"begin", SE ELIMINA PROYECTO 1
+            "const",
+            "do",
+            "else",
+            "elsif", //PROYECTO 1
+            "end",
+            "for", //PROYECTO 1
+            "func",
+            "if",
+            "in",
+            "let",
+            "loop", //PROYECTO 1
+            "nothing", //PROYECTO 1
+            "of",
+            "private", //PROYECTO 1
+            "proc",
+            "rec", //PROYECTO 1
+            "record",
+            "then",
+            "to", //PROYECTO 1
+            "type",
+            "until", //PROYECTO 1
+            "var",
+            "while",
+            ".",
+            ":",
+            ";",
+            ",",
+            ":=",
+            "~",
+            "..", //PROYECTO 1
+            "(",
+            ")",
+            "[",
+            "]",
+            "{",
+            "}",
+            "",
+            "<error>"
+    };
 
   private final static int	firstReservedWord = Token.ARRAY,
   				lastReservedWord  = Token.WHILE;
