@@ -245,6 +245,26 @@ public class Parser {
                     accept(Token.END);
                     finish(commandPos);
                     commandAST = new UntilCommand(eAST, cAST, commandPos);
+        } else if (currentToken.kind == Token.DO) {
+                    acceptIt();
+                    Command cAST = parseCommand();
+                    Expression eAST = null;
+                    if (currentToken.kind == Token.WHILE) {
+                        acceptIt();
+                        eAST = parseExpression();
+                        accept(Token.END);
+                        finish(commandPos);
+                        commandAST = new DoWhileCommand(cAST, eAST, commandPos);
+                    } else if (currentToken.kind == Token.UNTIL) {
+                        acceptIt();
+                        eAST = parseExpression();
+                        accept(Token.END);
+                        finish(commandPos);
+                        commandAST = new DoUntilCommand(cAST, eAST, commandPos);
+                    } else
+                        syntacticError("\"%\" Error, UNTIL OR WHILE expected",
+                                currentToken.spelling);
+                    break;
        
           } else {
                     syntacticError("\"%\" SyntaxError expected {while, until, do, for}",
