@@ -1,6 +1,8 @@
 # Compiladores
 --------------------------------Tareas Realizadas--------------------------------
 
+-> Eliminar de single-Command la primera alternativa (, el comando vacío)3
+
 ->Eliminar de single-Command estas otras alternativas:
     | "begin" Command "end"
     | "let" Declaration "in" single-Command
