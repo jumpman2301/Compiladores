@@ -10,5 +10,9 @@
 ->Añadir a single-Command lo siguiente4:
 	"nothing"
 	| "let" Declaration "in" Command "end"
+	| "if" Expression "then" Command ("elsif" Expression "then" Command)*
+		"else" Command "end"
+
 	
 	|"loop" "while" Expression "do" Command "end"
+	| "loop" "until" Expression "do" Command "end"

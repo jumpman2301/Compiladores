@@ -14,73 +14,8 @@
 
 package Triangle.SyntacticAnalyzer;
 
+import Triangle.AbstractSyntaxTrees.*;
 import Triangle.ErrorReporter;
-import Triangle.AbstractSyntaxTrees.ActualParameter;
-import Triangle.AbstractSyntaxTrees.ActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.ArrayAggregate;
-import Triangle.AbstractSyntaxTrees.ArrayExpression;
-import Triangle.AbstractSyntaxTrees.ArrayTypeDenoter;
-import Triangle.AbstractSyntaxTrees.AssignCommand;
-import Triangle.AbstractSyntaxTrees.BinaryExpression;
-import Triangle.AbstractSyntaxTrees.CallCommand;
-import Triangle.AbstractSyntaxTrees.CallExpression;
-import Triangle.AbstractSyntaxTrees.CharacterExpression;
-import Triangle.AbstractSyntaxTrees.CharacterLiteral;
-import Triangle.AbstractSyntaxTrees.Command;
-import Triangle.AbstractSyntaxTrees.ConstActualParameter;
-import Triangle.AbstractSyntaxTrees.ConstDeclaration;
-import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
-import Triangle.AbstractSyntaxTrees.Declaration;
-import Triangle.AbstractSyntaxTrees.DotVname;
-import Triangle.AbstractSyntaxTrees.EmptyActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.EmptyCommand;
-import Triangle.AbstractSyntaxTrees.EmptyFormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.Expression;
-import Triangle.AbstractSyntaxTrees.FieldTypeDenoter;
-import Triangle.AbstractSyntaxTrees.FormalParameter;
-import Triangle.AbstractSyntaxTrees.FormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.FuncActualParameter;
-import Triangle.AbstractSyntaxTrees.FuncDeclaration;
-import Triangle.AbstractSyntaxTrees.FuncFormalParameter;
-import Triangle.AbstractSyntaxTrees.Identifier;
-import Triangle.AbstractSyntaxTrees.IfCommand;
-import Triangle.AbstractSyntaxTrees.IfExpression;
-import Triangle.AbstractSyntaxTrees.IntegerExpression;
-import Triangle.AbstractSyntaxTrees.IntegerLiteral;
-import Triangle.AbstractSyntaxTrees.LetCommand;
-import Triangle.AbstractSyntaxTrees.LetExpression;
-import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
-import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
-import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
-import Triangle.AbstractSyntaxTrees.Operator;
-import Triangle.AbstractSyntaxTrees.ProcActualParameter;
-import Triangle.AbstractSyntaxTrees.ProcDeclaration;
-import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
-import Triangle.AbstractSyntaxTrees.Program;
-import Triangle.AbstractSyntaxTrees.RecordAggregate;
-import Triangle.AbstractSyntaxTrees.RecordExpression;
-import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
-import Triangle.AbstractSyntaxTrees.SequentialCommand;
-import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
-import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
-import Triangle.AbstractSyntaxTrees.SimpleVname;
-import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.SingleArrayAggregate;
-import Triangle.AbstractSyntaxTrees.SingleFieldTypeDenoter;
-import Triangle.AbstractSyntaxTrees.SingleFormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.SingleRecordAggregate;
-import Triangle.AbstractSyntaxTrees.SubscriptVname;
-import Triangle.AbstractSyntaxTrees.TypeDeclaration;
-import Triangle.AbstractSyntaxTrees.TypeDenoter;
-import Triangle.AbstractSyntaxTrees.UnaryExpression;
-import Triangle.AbstractSyntaxTrees.VarActualParameter;
-import Triangle.AbstractSyntaxTrees.VarDeclaration;
-import Triangle.AbstractSyntaxTrees.VarFormalParameter;
-import Triangle.AbstractSyntaxTrees.Vname;
-import Triangle.AbstractSyntaxTrees.VnameExpression;
-import Triangle.AbstractSyntaxTrees.WhileCommand;
 
 public class Parser {
 
@@ -302,14 +237,40 @@ public class Parser {
                     accept(Token.END);
                     finish(commandPos);
                     commandAST = new WhileCommand(eAST, cAST, commandPos);
-         } else {
+        } else if (currentToken.kind == Token.UNTIL) {
+                    acceptIt();
+                    Expression eAST = parseExpression();
+                    accept(Token.DO);
+                    Command cAST = parseCommand();
+                    accept(Token.END);
+                    finish(commandPos);
+                    commandAST = new UntilCommand(eAST, cAST, commandPos);
+       
+          } else {
                     syntacticError("\"%\" SyntaxError expected {while, until, do, for}",
                             currentToken.spelling);
                     break;
                 }
         break;
+            case Token.IF: {
+                acceptIt();
+                Expression e1AST = parseExpression();
+                accept(Token.THEN);
+                Command c1AST = parseCommand();
+                Command c2AST = null;
+                if (currentToken.kind == Token.ELSIF)
+                    c2AST = parseElsif(); //Lamada a funcion auxiliar para parsear los elsif opcionales
+                else {
+                    accept(Token.ELSE);
+                    c2AST = parseCommand();
+                }
+                accept(Token.END);
+                finish(commandPos);
+                commandAST = new IfCommand(e1AST, c1AST, c2AST, commandPos);
+            }
+            break;
 
-    case Token.LET: {
+        case Token.LET: {
                 acceptIt();
                 Declaration dAST = parseDeclaration();
                 accept(Token.IN);
@@ -317,8 +278,8 @@ public class Parser {
                 accept(Token.END);
                 finish(commandPos);
                 commandAST = new LetCommand(dAST, cAST, commandPos);
-    }
-    break;
+         }
+        break;
 
     case Token.NOTHING: {
                 acceptIt();
@@ -346,7 +307,32 @@ public class Parser {
 
     return commandAST;
   }
+///////////////////////////////////////////////////////////////////////////////
+//
+// Auxiliar para parsear el elsif recursivamente
+//
+///////////////////////////////////////////////////////////////////////////////
 
+    Command parseElsif() throws SyntaxError {
+        SourcePosition commandPos = new SourcePosition();
+        start(commandPos);
+        Command cAST = null;
+        accept(Token.ELSIF);
+        Expression eAST = parseExpression();
+        accept(Token.THEN);
+        Command cAUX = parseCommand();
+        if (currentToken.kind == Token.ELSIF) {
+            finish(commandPos);
+            //Recursion de cola para guardar los elsif como jerarquia
+            cAST = new ElsifCommand(eAST, cAUX, parseElsif(), commandPos);
+        } else { //Caso que no exista otro elsif se parsea el comando del else, se deja como hoja en la jerarquia del elsif
+            accept(Token.ELSE);
+            Command elseCommand = parseCommand();
+            finish(commandPos);
+            cAST = new ElsifCommand(eAST, cAUX, elseCommand, commandPos);
+        }
+        return cAST;
+    }
 ///////////////////////////////////////////////////////////////////////////////
 //
 // EXPRESSIONS

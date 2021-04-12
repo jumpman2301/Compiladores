@@ -16,6 +16,9 @@ package Triangle.AbstractSyntaxTrees;
 
 public interface Visitor {
 
+
+  public abstract Object visitUntilCommand(UntilCommand ast, Object o);
+  public abstract Object visitElsifCommand(ElsifCommand ast, Object o);
   // Commands
   public abstract Object visitAssignCommand(AssignCommand ast, Object o);
   public abstract Object visitCallCommand(CallCommand ast, Object o);
