@@ -10,3 +10,5 @@
 ->Añadir a single-Command lo siguiente4:
 	"nothing"
 	| "let" Declaration "in" Command "end"
+	
+	|"loop" "while" Expression "do" Command "end"

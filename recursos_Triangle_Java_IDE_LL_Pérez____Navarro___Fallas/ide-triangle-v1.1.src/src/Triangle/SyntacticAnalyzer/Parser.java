@@ -292,6 +292,22 @@ public class Parser {
         }
       }
       break;
+    case Token.LOOP:
+        acceptIt();
+        if (currentToken.kind == Token.WHILE) {
+                    acceptIt();
+                    Expression eAST = parseExpression();
+                    accept(Token.DO);
+                    Command cAST = parseCommand();
+                    accept(Token.END);
+                    finish(commandPos);
+                    commandAST = new WhileCommand(eAST, cAST, commandPos);
+         } else {
+                    syntacticError("\"%\" SyntaxError expected {while, until, do, for}",
+                            currentToken.spelling);
+                    break;
+                }
+        break;
 
     case Token.LET: {
                 acceptIt();
