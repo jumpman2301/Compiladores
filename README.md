@@ -18,3 +18,7 @@
 	
 	|"loop" "while" Expression "do" Command "end"
 	| "loop" "until" Expression "do" Command "end"
+	| "loop" "do" Command "while" Expression "end"
+	| "loop" "do" Command "until" Expression "end"
+	| "loop" "for" Identifier "from" Expression "to" Expression "do" Command "end"
+

@@ -265,13 +265,25 @@ public class Parser {
                         syntacticError("\"%\" Error, UNTIL OR WHILE expected",
                                 currentToken.spelling);
                     break;
-       
-          } else {
-                    syntacticError("\"%\" SyntaxError expected {while, until, do, for}",
-                            currentToken.spelling);
+
+                    } else if (currentToken.kind == Token.FOR) {
+                        acceptIt();
+                        Identifier iAST = parseIdentifier();
+                        accept(Token.FROM);
+                        Expression eAST = parseExpression();
+                        accept(Token.TO);
+                        Expression eAST2 = parseExpression();
+                        accept(Token.DO);
+                        Command cAST = parseCommand();
+                        accept(Token.END);
+                        finish(commandPos);
+                        commandAST = new ForCommand(iAST, eAST, eAST2, cAST, commandPos);
+                    } else {
+                        syntacticError("\"%\" SyntaxError expected {while, until, do, for}",
+                                currentToken.spelling);
                     break;
                 }
-        break;
+                break;
             case Token.IF: {
                 acceptIt();
                 Expression e1AST = parseExpression();

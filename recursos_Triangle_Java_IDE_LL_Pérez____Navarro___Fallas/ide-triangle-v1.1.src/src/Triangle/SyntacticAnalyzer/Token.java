@@ -75,44 +75,45 @@ final class Token extends Object {
             ELSIF = 9,  //PROYECTO 1
             END = 10,
             FOR = 11,
-            FUNC = 12, //PROYECTO 1
-            IF = 13,
-            IN = 14,
-            LET = 15,
-            LOOP = 16, //PROYECTO 1
-            NOTHING = 17, //PROYECTO 1
-            OF = 18,
-            PRIVATE = 19, //PROYECTO 1
-            PROC = 20,
-            REC = 21, //PROYECTO 1
-            RECORD = 22,
-            THEN = 23,
-            TO = 24, //PROYECTO 1
-            TYPE = 25,
-            UNTIL = 26, //PROYECTO 1
-            VAR = 27,
-            WHILE = 28,
+            FROM = 12,
+            FUNC = 13, //PROYECTO 1
+            IF = 14,
+            IN = 15,
+            LET = 16,
+            LOOP = 17, //PROYECTO 1
+            NOTHING = 18, //PROYECTO 1
+            OF = 19,
+            PRIVATE = 20, //PROYECTO 1
+            PROC = 21,
+            REC = 22, //PROYECTO 1
+            RECORD = 23,
+            THEN = 24,
+            TO = 25, //PROYECTO 1
+            TYPE = 26,
+            UNTIL = 27, //PROYECTO 1
+            VAR = 28,
+            WHILE = 29,
 
             // punctuation...
-            DOT = 29,
-            COLON = 30,
-            SEMICOLON = 31,
-            COMMA = 32,
-            BECOMES = 33,
-            IS = 34,
-            DOUBLE_DOTS = 35, // PROYECTO 1
+            DOT = 30,
+            COLON = 31,
+            SEMICOLON = 32,
+            COMMA = 33,
+            BECOMES = 34,
+            IS = 35,
+            DOUBLE_DOTS = 36, // PROYECTO 1
 
             // brackets...
-            LPAREN = 36,
-            RPAREN = 37,
-            LBRACKET = 38,
-            RBRACKET = 39,
-            LCURLY = 40,
-            RCURLY = 41,
+            LPAREN = 37,
+            RPAREN = 38,
+            LBRACKET = 39,
+            RBRACKET = 40,
+            LCURLY = 41,
+            RCURLY = 42,
 
             // special tokens...
-            EOT = 42,
-            ERROR = 43;
+            EOT = 43,
+            ERROR = 44;
   private static String[] tokenTable = new String[] {
             "<int>",
             "<char>",
@@ -127,6 +128,7 @@ final class Token extends Object {
             "elsif", //PROYECTO 1
             "end",
             "for", //PROYECTO 1
+            "from",
             "func",
             "if",
             "in",
