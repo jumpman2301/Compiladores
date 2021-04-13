@@ -591,16 +591,123 @@ public class Parser {
 
     SourcePosition declarationPos = new SourcePosition();
     start(declarationPos);
-    declarationAST = parseSingleDeclaration();
+    declarationAST = parseCompoundDeclaration();
     while (currentToken.kind == Token.SEMICOLON) {
       acceptIt();
-      Declaration d2AST = parseSingleDeclaration();
+      Declaration d2AST = parseCompoundDeclaration();
       finish(declarationPos);
       declarationAST = new SequentialDeclaration(declarationAST, d2AST,
         declarationPos);
     }
     return declarationAST;
   }
+
+
+    //<editor-fold desc="Agregado Proyecto 1">
+    Declaration parseCompoundDeclaration() throws SyntaxError {
+        Declaration declarationAST = null;
+        Declaration declarationAux = null;
+        SourcePosition compoundPos = new SourcePosition();
+        start(compoundPos);
+        switch (currentToken.kind) {
+            //Los siguientes casos son los iniciadores de un SingleDeclaration
+            case Token.CONST:
+            case Token.VAR:
+            case Token.PROC:
+            case Token.FUNC:
+            case Token.TYPE:
+                declarationAST = parseSingleDeclaration();
+                break;
+            case Token.REC: {
+                acceptIt();
+                declarationAux = parseProcFuncs();
+                accept(Token.END);
+                finish(compoundPos);
+                declarationAST = new RecDeclaration(declarationAux, compoundPos);
+                break;
+            }
+            case Token.PRIVATE: {
+                acceptIt();
+                Declaration d2AST = parseDeclaration();
+                accept(Token.IN);
+                Declaration d3AST = parseDeclaration();
+                accept(Token.END);
+                finish(compoundPos);
+                declarationAST = new PrivateDeclaration(d2AST, d3AST, compoundPos);
+                break;
+            }
+            default:
+                syntacticError(
+                        "\"%\" was found, expected " +
+                                "\'const\', " +
+                                "\'var\', " +
+                                "\'proc\', " +
+                                "\'func\', " +
+                                "\'type\', " +
+                                "\'rec\' or " +
+                                "\'private\'",
+                        currentToken.spelling);
+        }
+        return declarationAST;
+    }
+
+    Declaration parseProcFunc() throws SyntaxError {
+        SourcePosition procFuncsPos = new SourcePosition();
+        Declaration declarationAST = null;
+        start(procFuncsPos);
+        switch (currentToken.kind) {
+            case Token.PROC: {
+                acceptIt();
+                Identifier identifier = parseIdentifier();
+                accept(Token.LPAREN);
+                FormalParameterSequence formalParameter = parseFormalParameterSequence();
+                accept(Token.RPAREN);
+                accept(Token.IS);
+                Command command = parseCommand();
+                accept(Token.END);
+                finish(procFuncsPos);
+                declarationAST = new ProcDeclaration(identifier, formalParameter, command, procFuncsPos);
+                break;
+            }
+            case Token.FUNC: {
+                acceptIt();
+                Identifier identifier = parseIdentifier();
+                accept(Token.LPAREN);
+                FormalParameterSequence formalParameterSequence = parseFormalParameterSequence();
+                accept(Token.RPAREN);
+                accept(Token.COLON);
+                TypeDenoter typeDenoter = parseTypeDenoter();
+                accept(Token.IS);
+                Expression expression = parseExpression();
+                finish(procFuncsPos);
+                declarationAST = new FuncDeclaration(identifier, formalParameterSequence, typeDenoter, expression, procFuncsPos);
+                break;
+            }
+            default:
+
+
+                break;
+        }
+        return declarationAST;
+    }
+
+    Declaration parseProcFuncs() throws SyntaxError {
+        SourcePosition position = new SourcePosition();
+        start(position);
+        Declaration procFuncsAST = parseProcFunc();
+        do { //Se hace un do while para que el primer and y el segundo ProcFunc sean obligatorios
+            accept(Token.AND);
+            Declaration Daux = parseProcFunc();
+            finish(position);
+            procFuncsAST = new ProcFuncs(procFuncsAST, Daux, position);
+        } while (currentToken.kind == Token.AND);
+        return procFuncsAST;
+    }
+
+
+
+
+
 
   Declaration parseSingleDeclaration() throws SyntaxError {
     Declaration declarationAST = null; // in case there's a syntactic error
@@ -673,6 +780,7 @@ public class Parser {
         declarationAST = new TypeDeclaration(iAST, tAST, declarationPos);
       }
       break;
+
 
     default:
       syntacticError("\"%\" cannot start a declaration",

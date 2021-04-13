@@ -21,4 +21,17 @@
 	| "loop" "do" Command "while" Expression "end"
 	| "loop" "do" Command "until" Expression "end"
 	| "loop" "for" Identifier "from" Expression "to" Expression "do" Command "end"
+	
+->Modificar Declaration para que se lea
+	Declaration
+	::= compound-Declaration
+	|	Declaration ";" compound-Declaration
+
+->Añadir esta nueva regla (declaración de funciones y procedimientos mutuamente recursivos, declaraciones locales):
+	compound-Declaration
+	::= single-Declaration
+	|	"recursive" Proc-Funcs "end"
+	|	"private" Declaration "in" Declaration "end"
+
+
 
