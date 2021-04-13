@@ -278,6 +278,7 @@ public class Parser {
                         accept(Token.END);
                         finish(commandPos);
                         commandAST = new ForCommand(iAST, eAST, eAST2, cAST, commandPos);
+
                     } else {
                         syntacticError("\"%\" SyntaxError expected {while, until, do, for}",
                                 currentToken.spelling);
