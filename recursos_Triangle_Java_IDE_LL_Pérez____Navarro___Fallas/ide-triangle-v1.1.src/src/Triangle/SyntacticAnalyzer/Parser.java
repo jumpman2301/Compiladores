@@ -321,13 +321,13 @@ public class Parser {
       break;
     }
 
-  /*  case Token.SEMICOLON:
+   case Token.SEMICOLON:
     case Token.END:
     case Token.ELSE:
     case Token.IN:
     case Token.EOT:
 
-      finish(commandPos);
+     /* finish(commandPos);
       commandAST = new EmptyCommand(commandPos);
       break;*/
 
@@ -727,31 +727,39 @@ public class Parser {
         declarationAST = new ConstDeclaration(iAST, eAST, declarationPos);
       }
       break;
+     case Token.VAR: {
+                acceptIt();
+                Identifier iAST = parseIdentifier();
+                if (currentToken.kind == Token.COLON) {
+                    accept(Token.COLON);
+                    TypeDenoter tAST = parseTypeDenoter();
+                    finish(declarationPos);
+                    declarationAST = new VarDeclaration(iAST, tAST, declarationPos);
+                    //Añadido por el PROYECTO 1 hace el parse de una variable inicializada
+                } else if (currentToken.kind == Token.BECOMES) {
+                    acceptIt();
+                    Expression eAST = parseExpression();
+                    finish(declarationPos);
+                    declarationAST = new VarInitialized(iAST, eAST, declarationPos);
+                } else
+                    syntacticError("\"%\" Error al inicializar o declarar una variable",
+                            currentToken.spelling);
+        }
+        break;
 
-    case Token.VAR:
-      {
-        acceptIt();
-        Identifier iAST = parseIdentifier();
-        accept(Token.COLON);
-        TypeDenoter tAST = parseTypeDenoter();
-        finish(declarationPos);
-        declarationAST = new VarDeclaration(iAST, tAST, declarationPos);
-      }
-      break;
-
-    case Token.PROC:
-      {
-        acceptIt();
-        Identifier iAST = parseIdentifier();
-        accept(Token.LPAREN);
-        FormalParameterSequence fpsAST = parseFormalParameterSequence();
-        accept(Token.RPAREN);
-        accept(Token.IS);
-        Command cAST = parseSingleCommand();
-        finish(declarationPos);
-        declarationAST = new ProcDeclaration(iAST, fpsAST, cAST, declarationPos);
-      }
-      break;
+    case Token.PROC: {
+                acceptIt();
+                Identifier iAST = parseIdentifier();
+                accept(Token.LPAREN);
+                FormalParameterSequence fpsAST = parseFormalParameterSequence();
+                accept(Token.RPAREN);
+                accept(Token.IS);
+                Command cAST = parseCommand(); //Cambio por PROYECTO 1 pase de parseSingleCommand() a parseCommand()
+                accept(Token.END);
+                finish(declarationPos);
+                declarationAST = new ProcDeclaration(iAST, fpsAST, cAST, declarationPos);
+        }
+       break;
 
     case Token.FUNC:
       {

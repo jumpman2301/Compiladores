@@ -24,7 +24,7 @@ public interface Visitor {
   public abstract Object visitForCommand(ForCommand ast, Object o);
   public abstract Object visitRecDeclaration(RecDeclaration ast, Object o);
   public abstract Object visitPrivateDeclaration(PrivateDeclaration ast, Object o);
-
+ public abstract Object visitVarInitialized(VarInitialized ast, Object o);
   public abstract Object visitProcFuncs(ProcFuncs ast, Object o);
   // Commands
   public abstract Object visitAssignCommand(AssignCommand ast, Object o);
