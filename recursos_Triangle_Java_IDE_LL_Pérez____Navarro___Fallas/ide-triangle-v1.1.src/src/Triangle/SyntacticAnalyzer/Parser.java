@@ -1025,35 +1025,41 @@ public class Parser {
       }
       break;
 
-    case Token.ARRAY:
-      {
-        acceptIt();
-        IntegerLiteral ilAST = parseIntegerLiteral();
-        accept(Token.OF);
-        TypeDenoter tAST = parseTypeDenoter();
-        finish(typePos);
-        typeAST = new ArrayTypeDenoter(ilAST, tAST, typePos);
-      }
-      break;
 
-    case Token.RECORD:
-      {
-        acceptIt();
-        FieldTypeDenoter fAST = parseFieldTypeDenoter();
-        accept(Token.END);
-        finish(typePos);
-        typeAST = new RecordTypeDenoter(fAST, typePos);
-      }
-      break;
+            case Token.ARRAY: {
+                acceptIt();
+                IntegerLiteral il1AST = parseIntegerLiteral();
+                if (currentToken.kind == Token.OF) {
+                    acceptIt();
+                    TypeDenoter tAST = parseTypeDenoter();
+                    finish(typePos);
+                    typeAST = new ArrayTypeDenoter(il1AST, tAST, typePos);
+       
 
-    default:
-      syntacticError("\"%\" cannot start a type denoter",
-        currentToken.spelling);
-      break;
+                } else {
+                    syntacticError("\"%\" was found, expected \'of\' or \'..\'",
+                            currentToken.spelling);
+                }
+            }
+            break;
 
+            case Token.RECORD: {
+                acceptIt();
+                FieldTypeDenoter fAST = parseFieldTypeDenoter();
+                accept(Token.END);
+                finish(typePos);
+                typeAST = new RecordTypeDenoter(fAST, typePos);
+            }
+            break;
+
+            default:
+                syntacticError("\"%\" cannot start a type denoter",
+                        currentToken.spelling);
+                break;
+
+        }
+        return typeAST;
     }
-    return typeAST;
-  }
 
   FieldTypeDenoter parseFieldTypeDenoter() throws SyntaxError {
     FieldTypeDenoter fieldAST = null; // in case there's a syntactic error

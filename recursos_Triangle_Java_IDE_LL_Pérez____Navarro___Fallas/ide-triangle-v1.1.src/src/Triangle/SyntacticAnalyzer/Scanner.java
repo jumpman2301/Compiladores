@@ -129,8 +129,13 @@ public final class Scanner {
         return Token.ERROR;
 
     case '.':
-      takeIt();
-      return Token.DOT;
+                //Proyecto 1: Se modifica este case para soportar la sintaxis de Triangulo Extendido
+                takeIt();
+                if (currentChar == '.') {
+                    takeIt();
+                    return Token.DOUBLE_DOTS;
+                } else
+                    return Token.DOT;
 
     case ':':
       takeIt();
