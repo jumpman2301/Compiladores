@@ -210,21 +210,21 @@ public class Parser {
     case Token.IDENTIFIER:
       {
         Identifier iAST = parseIdentifier();
-      /*  if (currentToken.kind == Token.LPAREN) {
+        if (currentToken.kind == Token.LPAREN) {
           acceptIt();
           ActualParameterSequence apsAST = parseActualParameterSequence();
           accept(Token.RPAREN);
           finish(commandPos);
           commandAST = new CallCommand(iAST, apsAST, commandPos);
 
-        } else {*/
+        } else {
 
           Vname vAST = parseRestOfVname(iAST);
           accept(Token.BECOMES);
           Expression eAST = parseExpression();
           finish(commandPos);
           commandAST = new AssignCommand(vAST, eAST, commandPos);
-       // }
+        }
       }
       break;
     case Token.LOOP:
@@ -321,7 +321,7 @@ public class Parser {
       break;
     }
 
-    case Token.SEMICOLON:
+  /*  case Token.SEMICOLON:
     case Token.END:
     case Token.ELSE:
     case Token.IN:
@@ -329,7 +329,7 @@ public class Parser {
 
       finish(commandPos);
       commandAST = new EmptyCommand(commandPos);
-      break;
+      break;*/
 
     default:
       syntacticError("\"%\" cannot start a command",
