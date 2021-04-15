@@ -75,26 +75,34 @@ public class Parser {
 // PROGRAMS
 //
 ///////////////////////////////////////////////////////////////////////////////
+  Declaration parseProgramDeclaration() throws SyntaxError {
+        Declaration declarationAST = null;
+        Declaration declarationAux = null;
+        SourcePosition compoundPos = new SourcePosition();
+        start(compoundPos);
+        switch (currentToken.kind) {
+            //Los siguientes casos son los iniciadores de un SingleDeclaration
+            case Token.SEMICOLON:
 
-  public Program parseProgram() {
+                declarationAST = parsePackageDeclaration();
+                break;
 
-    Program programAST = null;
-
-    previousTokenPosition.start = 0;
-    previousTokenPosition.finish = 0;
-    currentToken = lexicalAnalyser.scan();
-
-    try {
-      Command cAST = parseCommand();
-      programAST = new Program(cAST, previousTokenPosition);
-      if (currentToken.kind != Token.EOT) {
-        syntacticError("\"%\" not expected after end of program",
-          currentToken.spelling);
-      }
+            default:
+                syntacticError(
+                            "\"%\" was found, expected " +
+                                    "\'const\', " +
+                                    "\'var\', " +
+                                    "\'proc\', " +
+                                    "\'func\', " +
+                                    "\'type\', " +
+                                    "\'rec\' or " +
+                                    "\'private\'",
+                            currentToken.spelling);
+        }
+        return declarationAST;
     }
-    catch (SyntaxError s) { return null; }
-    return programAST;
-  }
+
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -654,32 +662,6 @@ public class Parser {
 
 
 
-  Declaration parseProgramDeclaration() throws SyntaxError {
-        Declaration declarationAST = null;
-        Declaration declarationAux = null;
-        SourcePosition compoundPos = new SourcePosition();
-        start(compoundPos);
-        switch (currentToken.kind) {
-            //Los siguientes casos son los iniciadores de un SingleDeclaration
-            case Token.SEMICOLON:
-
-                declarationAST = parsePackageDeclaration();
-                break;
-
-            default:
-                syntacticError(
-                        "\"%\" was found, expected " +
-                                "\'const\', " +
-                                "\'var\', " +
-                                "\'proc\', " +
-                                "\'func\', " +
-                                "\'type\', " +
-                                "\'rec\' or " +
-                                "\'private\'",
-                        currentToken.spelling);
-        }
-        return declarationAST;
-    }
 
 
 
