@@ -603,6 +603,95 @@ public class Parser {
   }
 
 
+/*
+  Declaration parsePackageDeclaration() throws SyntaxError {
+    Declaration declarationAST = null; // in case there's a syntactic error
+
+    SourcePosition declarationPos = new SourcePosition();
+    start(declarationPos);
+    declarationAST = null;
+    if (currentToken.kind == Token.SEMICOLON) {
+      acceptIt();
+ 
+      finish(declarationPos);
+      declarationAST = new SemicolonDeclaration(declarationAST  ,declarationPos);
+    }
+    return declarationAST;
+  }*/
+
+    Declaration parsePackageDeclaration() throws SyntaxError {
+        SourcePosition PackagePos = new SourcePosition();
+        Declaration declarationAST = null;
+        start(PackagePos);
+        switch (currentToken.kind) {
+            case Token.SEMICOLON: {
+                acceptIt();
+                Identifier identifier = parseIdentifier();
+
+
+                Command command = parseCommand();
+                accept(Token.END);
+                finish(PackagePos);
+                declarationAST = new  SemicolonDeclaration(identifier,  PackagePos);
+                break;
+            }
+
+            default:
+
+
+                break;
+        }
+        return declarationAST;
+    }
+
+
+
+
+
+
+
+
+
+
+
+  Declaration parseProgramDeclaration() throws SyntaxError {
+        Declaration declarationAST = null;
+        Declaration declarationAux = null;
+        SourcePosition compoundPos = new SourcePosition();
+        start(compoundPos);
+        switch (currentToken.kind) {
+            //Los siguientes casos son los iniciadores de un SingleDeclaration
+            case Token.SEMICOLON:
+
+                declarationAST = parsePackageDeclaration();
+                break;
+
+            default:
+                syntacticError(
+                        "\"%\" was found, expected " +
+                                "\'const\', " +
+                                "\'var\', " +
+                                "\'proc\', " +
+                                "\'func\', " +
+                                "\'type\', " +
+                                "\'rec\' or " +
+                                "\'private\'",
+                        currentToken.spelling);
+        }
+        return declarationAST;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     //<editor-fold desc="Agregado Proyecto 1">
     Declaration parseCompoundDeclaration() throws SyntaxError {
         Declaration declarationAST = null;
@@ -683,6 +772,7 @@ public class Parser {
                 declarationAST = new FuncDeclaration(identifier, formalParameterSequence, typeDenoter, expression, procFuncsPos);
                 break;
             }
+
             default:
 
 
@@ -703,6 +793,26 @@ public class Parser {
         } while (currentToken.kind == Token.AND);
         return procFuncsAST;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
