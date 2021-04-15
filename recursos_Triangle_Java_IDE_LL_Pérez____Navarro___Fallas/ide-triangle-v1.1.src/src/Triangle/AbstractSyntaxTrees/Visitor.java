@@ -22,6 +22,7 @@ public interface Visitor {
   public abstract Object visitUntilCommand(UntilCommand ast, Object o);
   public abstract Object visitElsifCommand(ElsifCommand ast, Object o);
   public abstract Object visitForCommand(ForCommand ast, Object o);
+  public abstract Object visitForCommandmore(ForCommandmore ast, Object o);
   public abstract Object visitRecDeclaration(RecDeclaration ast, Object o);
   public abstract Object visitPrivateDeclaration(PrivateDeclaration ast, Object o);
  public abstract Object visitVarInitialized(VarInitialized ast, Object o);

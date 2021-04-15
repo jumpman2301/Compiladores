@@ -286,7 +286,35 @@ public class Parser {
                         accept(Token.END);
                         finish(commandPos);
                         commandAST = new ForCommand(iAST, eAST, eAST2, cAST, commandPos);
-
+   
+                 } else if (currentToken.kind == Token.FOR) {
+                        acceptIt();
+                        Identifier iAST = parseIdentifier();
+                        accept(Token.FROM);
+                        Expression eAST = parseExpression();
+                        accept(Token.TO);
+                        Expression eAST2 = parseExpression();
+                        accept(Token.WHILE);
+                        Expression eAST3 = parseExpression();
+                        accept(Token.DO);
+                        Command cAST = parseCommand();
+                        accept(Token.END);
+                        finish(commandPos);
+                        commandAST = new ForCommandmore(iAST, eAST, eAST2,eAST3, cAST, commandPos);
+                 } else if (currentToken.kind == Token.FOR) {
+                        acceptIt();
+                        Identifier iAST = parseIdentifier();
+                        accept(Token.FROM);
+                        Expression eAST = parseExpression();
+                        accept(Token.TO);
+                        Expression eAST2 = parseExpression();
+                        accept(Token.UNTIL);
+                        Expression eAST3 = parseExpression();
+                        accept(Token.DO);
+                        Command cAST = parseCommand();
+                        accept(Token.END);
+                        finish(commandPos);
+                        commandAST = new ForCommandmore(iAST, eAST, eAST2,eAST3, cAST, commandPos);
                     } else {
                         syntacticError("\"%\" SyntaxError expected {while, until, do, for}",
                                 currentToken.spelling);
