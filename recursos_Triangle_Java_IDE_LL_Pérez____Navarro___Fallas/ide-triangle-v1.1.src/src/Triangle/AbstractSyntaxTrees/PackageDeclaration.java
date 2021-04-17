@@ -1,22 +1,32 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package Triangle.AbstractSyntaxTrees;
-
 import Triangle.SyntacticAnalyzer.SourcePosition;
-
+/**
+ *
+ * @author Mariángela
+ */
 public class PackageDeclaration extends Declaration {
 
-  public PackageDeclaration (PackageIdentifier fpsAST,
-  		   Declaration cAST, SourcePosition thePosition) {
+
+
+  public PackageDeclaration (Identifier iAST, Declaration D1,  SourcePosition thePosition) {
     super (thePosition);
+    I = iAST;
+      D = D1;
+  
+}
 
-    FPS = fpsAST;
-    D = cAST;
-  }
 
-  public Object visit (Visitor v, Object o) {
+  public Object visit(Visitor v, Object o) {
     return v.visitPackageDeclaration(this, o);
   }
 
-  public  PackageIdentifier FPS;
-  public Declaration D;
+  public Identifier I;
+public Declaration D;
+ 
 }

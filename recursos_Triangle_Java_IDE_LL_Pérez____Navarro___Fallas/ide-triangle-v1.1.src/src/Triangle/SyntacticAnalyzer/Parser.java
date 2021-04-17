@@ -663,10 +663,6 @@ public class Parser {
             case Token.SEMICOLON: {
                 acceptIt();
                 Identifier identifier = parseIdentifier();
-
-
-                Command command = parseCommand();
-                accept(Token.END);
                 finish(PackagePos);
                 declarationAST = new  SemicolonDeclaration(identifier,  PackagePos);
                 break;
@@ -674,13 +670,13 @@ public class Parser {
 
             case Token.PACKAGE: {
                 acceptIt();
-           //     PackageIdentifier packageIdentifier= parsePackageIdentifier();
-                accept(Token.IS);
+                Identifier identifier = parseIdentifier();
+                accept(Token.LPAREN);
 
                 Declaration declaration = parseDeclaration();
                 accept(Token.END);
                 finish(PackagePos);
-         //       declarationAST = new  PackageDeclaration(packageIdentifier,declaration  ,PackagePos);
+               declarationAST = new  PackageDeclaration( identifier ,declaration  ,PackagePos);
                 break;
 
             

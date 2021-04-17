@@ -16,9 +16,9 @@ package Triangle.AbstractSyntaxTrees;
 
 import Triangle.SyntacticAnalyzer.SourcePosition;
 
-public class PackageIdentifier extends Terminal {
+public class  PackageIdentifier extends Terminal {
 
-  public PackageIdentifier (String theSpelling, SourcePosition thePosition) {
+  public  PackageIdentifier (String theSpelling, SourcePosition thePosition) {
     super (theSpelling, thePosition);
     type = null;
     decl = null;
