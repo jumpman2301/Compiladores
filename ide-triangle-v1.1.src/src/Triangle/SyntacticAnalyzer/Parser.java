@@ -104,6 +104,24 @@ public class Parser {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ///////////////////////////////////////////////////////////////////////////////
 //
 // LITERALS
@@ -166,18 +184,64 @@ public class Parser {
 
   PackageIdentifier parsePackageIdentifier() throws SyntaxError {
     PackageIdentifier I = null;
-
+        SourcePosition PackagePos = new SourcePosition();
+        Declaration declarationAST = null;
+        start(PackagePos);
     if (currentToken.kind == Token.IDENTIFIER) {
       previousTokenPosition = currentToken.position;
       String spelling = currentToken.spelling;
       I = new PackageIdentifier(spelling, previousTokenPosition);
       currentToken = lexicalAnalyser.scan();
-    } else {
+    }else if (currentToken.kind == Token.DOLLAR) {
+                acceptIt();
+                Identifier identifier = parseIdentifier();
+                finish(PackagePos);
+                declarationAST = new  DollarDeclaration(identifier,  PackagePos);
+                
+            }else {
       I = null;
       syntacticError("identifier expected here", "");
     }
     return I;
   }
+
+
+
+
+
+
+
+
+
+
+
+  LongIdentifier parsePackageLongIdentifier() throws SyntaxError {
+    LongIdentifier I = null;
+        SourcePosition PackagePos = new SourcePosition();
+        Declaration declarationAST = null;
+        start(PackagePos);
+ if (currentToken.kind == Token.DOLLAR) {
+                acceptIt();
+                Identifier identifier = parseIdentifier();
+                finish(PackagePos);
+                declarationAST = new  DollarDeclaration(identifier,  PackagePos);
+                
+            }else {
+      I = null;
+      syntacticError("identifier expected here", "");
+    }
+    return I;
+  }
+
+
+
+
+
+
+
+
+
+
 
 // parseOperator parses an operator, and constructs a leaf AST to
 // represent it.
