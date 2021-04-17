@@ -164,6 +164,21 @@ public class Parser {
     return I;
   }
 
+  PackageIdentifier parsePackageIdentifier() throws SyntaxError {
+    PackageIdentifier I = null;
+
+    if (currentToken.kind == Token.IDENTIFIER) {
+      previousTokenPosition = currentToken.position;
+      String spelling = currentToken.spelling;
+      I = new PackageIdentifier(spelling, previousTokenPosition);
+      currentToken = lexicalAnalyser.scan();
+    } else {
+      I = null;
+      syntacticError("identifier expected here", "");
+    }
+    return I;
+  }
+
 // parseOperator parses an operator, and constructs a leaf AST to
 // represent it.
 
@@ -670,13 +685,13 @@ public class Parser {
 
             case Token.PACKAGE: {
                 acceptIt();
-                Identifier identifier = parseIdentifier();
+                PackageIdentifier packageidentifier = parsePackageIdentifier();
                 accept(Token.LPAREN);
 
                 Declaration declaration = parseDeclaration();
                 accept(Token.END);
                 finish(PackagePos);
-               declarationAST = new  PackageDeclaration( identifier ,declaration  ,PackagePos);
+               declarationAST = new  PackageDeclaration( packageidentifier,declaration  ,PackagePos);
                 break;
 
             

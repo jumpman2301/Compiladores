@@ -14,10 +14,10 @@ public class PackageDeclaration extends Declaration {
 
 
 
-  public PackageDeclaration (Identifier iAST, Declaration D1,  SourcePosition thePosition) {
+  public PackageDeclaration (PackageIdentifier iAST, Declaration D1,  SourcePosition thePosition) {
     super (thePosition);
     I = iAST;
-      D = D1;
+      D= D1;
   
 }
 
@@ -26,7 +26,7 @@ public class PackageDeclaration extends Declaration {
     return v.visitPackageDeclaration(this, o);
   }
 
-  public Identifier I;
+  public PackageIdentifier I;
 public Declaration D;
  
 }

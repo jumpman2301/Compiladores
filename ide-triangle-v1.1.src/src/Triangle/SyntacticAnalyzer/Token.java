@@ -39,7 +39,11 @@ final class Token extends Object {
           currentKind ++;
         }
       }
-    } else
+    } 
+
+
+
+else
       this.kind = kind;
 
     this.spelling = spelling;
