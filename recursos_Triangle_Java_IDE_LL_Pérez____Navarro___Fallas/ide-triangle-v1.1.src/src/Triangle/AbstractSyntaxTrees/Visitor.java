@@ -56,6 +56,7 @@ public interface Visitor {
   public abstract Object visitSemicolonDeclaration (SemicolonDeclaration  ast, Object o);
   public abstract Object visitFuncDeclaration(FuncDeclaration ast, Object o);
   public abstract Object visitProcDeclaration(ProcDeclaration ast, Object o);
+  public abstract Object visitPackageDeclaration(PackageDeclaration ast, Object o);
   public abstract Object visitSequentialDeclaration(SequentialDeclaration ast, Object o);
   public abstract Object visitTypeDeclaration(TypeDeclaration ast, Object o);
   public abstract Object visitUnaryOperatorDeclaration(UnaryOperatorDeclaration ast, Object o);
@@ -97,6 +98,7 @@ public interface Visitor {
   public abstract Object visitErrorTypeDenoter(ErrorTypeDenoter ast, Object o);
   public abstract Object visitSimpleTypeDenoter(SimpleTypeDenoter ast, Object o);
   public abstract Object visitIntTypeDenoter(IntTypeDenoter ast, Object o);
+  public abstract Object visitIntPackageDenoter(IntTypeDenoter ast, Object o);
   public abstract Object visitRecordTypeDenoter(RecordTypeDenoter ast, Object o);
 
   public abstract Object visitMultipleFieldTypeDenoter(MultipleFieldTypeDenoter ast, Object o);
@@ -105,6 +107,7 @@ public interface Visitor {
   // Literals, Identifiers and Operators
   public abstract Object visitCharacterLiteral(CharacterLiteral ast, Object o);
   public abstract Object visitIdentifier(Identifier ast, Object o);
+  public abstract Object visitPackageIdentifier(PackageIdentifier ast, Object o);
   public abstract Object visitIntegerLiteral(IntegerLiteral ast, Object o);
   public abstract Object visitOperator(Operator ast, Object o);
 

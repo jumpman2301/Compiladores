@@ -672,6 +672,20 @@ public class Parser {
                 break;
             }
 
+            case Token.PACKAGE: {
+                acceptIt();
+           //     PackageIdentifier packageIdentifier= parsePackageIdentifier();
+                accept(Token.IS);
+
+                Declaration declaration = parseDeclaration();
+                accept(Token.END);
+                finish(PackagePos);
+         //       declarationAST = new  PackageDeclaration(packageIdentifier,declaration  ,PackagePos);
+                break;
+
+            
+            }
+
             default:
 
 
