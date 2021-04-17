@@ -686,7 +686,7 @@ public class Parser {
             case Token.PACKAGE: {
                 acceptIt();
                 PackageIdentifier packageidentifier = parsePackageIdentifier();
-                accept(Token.LPAREN);
+                accept(Token.IS);
 
                 Declaration declaration = parseDeclaration();
                 accept(Token.END);

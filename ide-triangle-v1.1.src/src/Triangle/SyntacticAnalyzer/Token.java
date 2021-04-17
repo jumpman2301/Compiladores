@@ -76,51 +76,52 @@ else
             CONST = 6,
             CHOOSE =7,
             DO = 8,
-            ELSE = 9,
-            ELSIF = 10,  //PROYECTO 1
-            END = 11,
-            FOR = 12,
-            FROM = 13,
-            FUNC = 14, //PROYECTO 1
-            IF = 15,
-            IN = 16,
-            LET = 17,
-            LOOP = 18, //PROYECTO 1
-            NOTHING = 19, //PROYECTO 1
-            OF = 20,
-            PACKAGE = 21,
-            PRIVATE = 22, //PROYECTO 1
-            PROC = 23,
-            REC = 24, //PROYECTO 1
-            RECORD = 25,
-            THEN = 26,
-            TO = 27, //PROYECTO 1
-            TYPE = 28,
-            UNTIL = 29, //PROYECTO 1
-            VAR = 30,
-            WHEN =31,
-            WHILE = 32,
+            DOLLAR=9,
+            ELSE = 10,
+            ELSIF = 11,  //PROYECTO 1
+            END = 12,
+            FOR = 13,
+            FROM = 14,
+            FUNC = 15, //PROYECTO 1
+            IF = 16,
+            IN = 17,
+            LET = 18,
+            LOOP = 19, //PROYECTO 1
+            NOTHING = 20, //PROYECTO 1
+            OF = 21,
+            PACKAGE = 22,
+            PRIVATE = 23, //PROYECTO 1
+            PROC = 24,
+            REC = 25, //PROYECTO 1
+            RECORD = 26,
+            THEN = 27,
+            TO = 28, //PROYECTO 1
+            TYPE = 29,
+            UNTIL = 30, //PROYECTO 1
+            VAR = 31,
+            WHEN =32,
+            WHILE = 33,
 
             // punctuation...
-            DOT = 33,
-            COLON = 34,
-            SEMICOLON = 35,
-            COMMA = 36,
-            BECOMES = 37,
-            IS = 38,
-            DOUBLE_DOTS = 39, // PROYECTO 1
+            DOT = 34,
+            COLON = 35,
+            SEMICOLON = 36,
+            COMMA = 37,
+            BECOMES = 38,
+            IS = 39,
+            DOUBLE_DOTS = 40, // PROYECTO 1
 
             // brackets...
-            LPAREN = 40,
-            RPAREN = 41,
-            LBRACKET = 42,
-            RBRACKET = 43,
-            LCURLY = 44,
-            RCURLY = 45,
+            LPAREN = 41,
+            RPAREN = 42,
+            LBRACKET = 43,
+            RBRACKET = 44,
+            LCURLY = 45,
+            RCURLY = 46,
 
             // special tokens...
-            EOT = 46,
-            ERROR = 47;
+            EOT = 47,
+            ERROR = 48;
   private static String[] tokenTable = new String[] {
             "<int>",
             "<char>",
@@ -131,6 +132,7 @@ else
             //"begin", SE ELIMINA PROYECTO 1
             "const",
             "do",
+            "dollar",
             "else",
             "elsif", //PROYECTO 1
             "end",
