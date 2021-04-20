@@ -82,26 +82,33 @@ public class Parser {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-    public Program parseProgram() {
+  public Program parseProgram() {
 
-        Program programAST = null;
+    Program programAST = null;
 
-        previousTokenPosition.start = 0;
-        previousTokenPosition.finish = 0;
-        currentToken = lexicalAnalyser.scan();
-
-        try {
-            Command cAST = parseCommand();
-            programAST = new Program(cAST, previousTokenPosition);
-            if (currentToken.kind != Token.EOT) {
-                syntacticError("\"%\" not expected after end of program",
-                        currentToken.spelling);
-            }
-        } catch (SyntaxError s) {
-            return null;
-        }
-        return programAST;
+    previousTokenPosition.start = 0;
+    previousTokenPosition.finish = 0;
+    currentToken = lexicalAnalyser.scan();
+    SourcePosition procFuncsPos = new SourcePosition();
+     PackageIdentifier pi=null;
+    try {
+      Command cAST = parseCommand();
+      programAST = new Program(cAST, previousTokenPosition);
+      if (currentToken.kind == Token.SEMICOLON) {
+                acceptIt();
+                //PackageIdentifier packageidentifier = parsePackageIdentifier();
+                finish(procFuncsPos);
+       }else if(currentToken.kind == Token.IDENTIFIER) {
+                acceptIt();
+                Command ommand = parseCommand();
+                finish(procFuncsPos);
+                
+      }
+     
     }
+    catch (SyntaxError s) { return null; }
+    return programAST;
+  }
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -763,7 +770,7 @@ public class Parser {
         start(position);
         Declaration procFuncsAST = parseProcFunc();
         do { //Se hace un do while para que el primer and y el segundo ProcFunc sean obligatorios
-            accept(Token.AND);
+            accept(Token.LINE);
             Declaration Daux = parseProcFunc();
             finish(position);
             procFuncsAST = new ProcFuncs(procFuncsAST, Daux, position);

@@ -205,6 +205,10 @@ public final class Scanner {
                 takeIt();
                 return Token.IS;
 
+            case '|':
+                takeIt();
+                return Token.LINE;
+
             case '(':
                 takeIt();
                 return Token.LPAREN;

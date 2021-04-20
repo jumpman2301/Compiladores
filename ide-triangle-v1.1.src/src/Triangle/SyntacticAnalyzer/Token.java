@@ -74,18 +74,19 @@ final class Token {
             BECOMES = 33,
             IS = 34,
             DOUBLE_DOTS = 35, // PROYECTO 1
+            LINE = 36,
 
             // brackets...
-            LPAREN = 36,
-            RPAREN = 37,
-            LBRACKET = 38,
-            RBRACKET = 39,
-            LCURLY = 40,
-            RCURLY = 41,
+            LPAREN = 37,
+            RPAREN = 38,
+            LBRACKET = 39,
+            RBRACKET = 40,
+            LCURLY = 41,
+            RCURLY = 42,
 
             // special tokens...
-            EOT = 42,
-            ERROR = 43;
+            EOT = 43,
+            ERROR = 44;
 
     private final static int
             firstReservedWord = Token.AND, //Token.ARRAY, Cambia por proyecto 1, se agrega token AND antes de ARRAY
@@ -129,6 +130,7 @@ final class Token {
             ":=",
             "~",
             "..", //PROYECTO 1
+            "|",
             "(",
             ")",
             "[",
