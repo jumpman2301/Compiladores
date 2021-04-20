@@ -163,6 +163,24 @@ public class Parser {
         return I;
     }
 
+  PackageIdentifier parsePackageIdentifier() throws SyntaxError {
+    PackageIdentifier I = null;
+        SourcePosition PackagePos = new SourcePosition();
+        Declaration declarationAST = null;
+        start(PackagePos);
+    if (currentToken.kind == Token.IDENTIFIER) {
+      previousTokenPosition = currentToken.position;
+      String spelling = currentToken.spelling;
+      I = new PackageIdentifier(spelling, previousTokenPosition);
+      currentToken = lexicalAnalyser.scan();
+
+            }else {
+      I = null;
+      syntacticError("identifier expected here", "");
+    }
+    return I;
+  }
+
 // parseOperator parses an operator, and constructs a leaf AST to
 // represent it.
 
@@ -674,6 +692,31 @@ public class Parser {
         }
         return declarationAST;
     }
+
+
+ Declaration parsePackageDeclaration() throws SyntaxError {
+        SourcePosition PackagePos = new SourcePosition();
+        Declaration declarationAST = null;
+        start(PackagePos);
+        switch (currentToken.kind) {
+            case Token.SEMICOLON: {
+                acceptIt();
+                Identifier identifier = parseIdentifier();
+                Command command = parseCommand();
+                accept(Token.END);
+                finish(PackagePos);
+                declarationAST = new  SemicolonDeclaration(identifier,  PackagePos);
+                break;
+            }
+
+            default:
+
+
+                break;
+        }
+        return declarationAST;
+    }
+
 
     Declaration parseProcFunc() throws SyntaxError {
         SourcePosition procFuncsPos = new SourcePosition();
