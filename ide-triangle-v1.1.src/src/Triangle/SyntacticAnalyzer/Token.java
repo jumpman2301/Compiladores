@@ -11,12 +11,7 @@
  * not be used for commercial purposes without the prior written permission
  * of the authors.
  *
- * Modificaciones Proyecto 1 20018/04/23
- * Realizadas por
- * Javier Contreras Muñoz
- * Bryan Mena Villalobos
- * David Valverde Garro
- *
+
  * Se añaden nuevos token para soportar la nueva sintaxis de Triangulo Extendido
  * Se marcan con el comentario '//PROYECTO 1' los nuevos Token
  * Se elimina el token 'begin'
@@ -75,18 +70,18 @@ final class Token {
             IS = 34,
             DOUBLE_DOTS = 35, // PROYECTO 1
             LINE = 36,
-
+            DOLLAR = 37,
             // brackets...
-            LPAREN = 37,
-            RPAREN = 38,
-            LBRACKET = 39,
-            RBRACKET = 40,
-            LCURLY = 41,
-            RCURLY = 42,
+            LPAREN = 38,
+            RPAREN = 39,
+            LBRACKET = 40,
+            RBRACKET = 41,
+            LCURLY = 42,
+            RCURLY = 43,
 
             // special tokens...
-            EOT = 43,
-            ERROR = 44;
+            EOT = 44,
+            ERROR = 45;
 
     private final static int
             firstReservedWord = Token.AND, //Token.ARRAY, Cambia por proyecto 1, se agrega token AND antes de ARRAY
@@ -131,6 +126,7 @@ final class Token {
             "~",
             "..", //PROYECTO 1
             "|",
+            "$",
             "(",
             ")",
             "[",
