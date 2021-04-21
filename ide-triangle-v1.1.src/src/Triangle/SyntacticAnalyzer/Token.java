@@ -11,12 +11,7 @@
  * not be used for commercial purposes without the prior written permission
  * of the authors.
  *
- * Modificaciones Proyecto 1 20018/04/23
- * Realizadas por
- * Javier Contreras Muñoz
- * Bryan Mena Villalobos
- * David Valverde Garro
- *
+
  * Se añaden nuevos token para soportar la nueva sintaxis de Triangulo Extendido
  * Se marcan con el comentario '//PROYECTO 1' los nuevos Token
  * Se elimina el token 'begin'
@@ -75,7 +70,7 @@ final class Token {
             IS = 34,
             DOUBLE_DOTS = 35, // PROYECTO 1
             LINE = 36,
-
+            DOLLAR = 37,
             // brackets...
             LPAREN = 37,
             RPAREN = 38,
@@ -131,6 +126,7 @@ final class Token {
             "~",
             "..", //PROYECTO 1
             "|",
+            "$",
             "(",
             ")",
             "[",
