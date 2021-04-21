@@ -209,6 +209,10 @@ public final class Scanner {
                 takeIt();
                 return Token.LINE;
 
+            case '$':
+                takeIt();
+                return Token.DOLLAR;
+
             case '(':
                 takeIt();
                 return Token.LPAREN;
@@ -270,3 +274,4 @@ public final class Scanner {
     }
 
 }
+/**/
