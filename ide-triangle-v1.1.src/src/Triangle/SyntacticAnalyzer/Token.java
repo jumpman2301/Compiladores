@@ -60,28 +60,30 @@ final class Token {
             UNTIL = 26, //PROYECTO 1
             VAR = 27,
             WHILE = 28,
-
+            FROM = 29,
+            PACKAGE =30,
             // punctuation...
-            DOT = 29,
-            COLON = 30,
-            SEMICOLON = 31,
-            COMMA = 32,
-            BECOMES = 33,
-            IS = 34,
-            DOUBLE_DOTS = 35, // PROYECTO 1
-            LINE = 36,
-            DOLLAR = 37,
+            DOT = 31,
+            COLON = 32,
+            SEMICOLON = 33,
+            COMMA = 34,
+            BECOMES = 35,
+            IS = 36,
+            DOUBLE_DOTS = 37, // PROYECTO 1
+            LINE = 38,
+            DOLLAR = 39,
+
             // brackets...
-            LPAREN = 38,
-            RPAREN = 39,
-            LBRACKET = 40,
-            RBRACKET = 41,
-            LCURLY = 42,
-            RCURLY = 43,
+            LPAREN = 40,
+            RPAREN = 41,
+            LBRACKET = 42,
+            RBRACKET = 43,
+            LCURLY = 44,
+            RCURLY = 45,
 
             // special tokens...
-            EOT = 44,
-            ERROR = 45;
+            EOT = 46,
+            ERROR = 47;
 
     private final static int
             firstReservedWord = Token.AND, //Token.ARRAY, Cambia por proyecto 1, se agrega token AND antes de ARRAY
@@ -118,6 +120,8 @@ final class Token {
             "until", //PROYECTO 1
             "var",
             "while",
+            "from",
+            "package",
             ".",
             ":",
             ";",

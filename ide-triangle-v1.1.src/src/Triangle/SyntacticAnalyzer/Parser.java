@@ -162,11 +162,7 @@ public class Parser {
       String spelling = currentToken.spelling;
       I = new PackageIdentifier(spelling, previousTokenPosition);
       currentToken = lexicalAnalyser.scan();
-    }else if (currentToken.kind == Token.DOLLAR) {
-      previousTokenPosition = currentToken.position;
-      String spelling = currentToken.spelling;
-      I = new PackageIdentifier(spelling, previousTokenPosition);
-      currentToken = lexicalAnalyser.scan();
+
             }else {
       I = null;
       syntacticError("identifier expected here", "");
