@@ -226,11 +226,7 @@ public class Parser {
     start(commandPos);
 
     switch (currentToken.kind) {
-      case Token.PASS:      // Se agrega pass y se quitan los otros caracteres
-          acceptIt();
-          finish(commandPos);
-          commandAST = new EmptyCommand(commandPos);
-        break;
+
       case Token.LOOP:
         {
           acceptIt();
@@ -260,19 +256,61 @@ public class Parser {
                 break;
               case Token.DO:
                 {
-                  //
-                  commandAST = ParseDoCommand();
-                  
-                  finish(commandPos);
+                     acceptIt();
+                    Command cAST = parseCommand();
+                    Expression eAST = null;
+                    if (currentToken.kind == Token.WHILE) {
+                        acceptIt();
+                        eAST = parseExpression();
+                        accept(Token.END);
+                        finish(commandPos);
+                        commandAST = new DoWhileCommand(cAST, eAST, commandPos);
+                    }
+                   else if (currentToken.kind == Token.UNTIL) {
+                        acceptIt();
+                        eAST = parseExpression();
+                        accept(Token.END);
+                        finish(commandPos);
+                        commandAST = new DoUntilCommand(cAST, eAST, commandPos);
+                    }
                 }
                 break;
               case Token.FOR:
                 {
-                  //
-                  commandAST = ParseForCommand();
-                  accept(Token.END);
-                  finish(commandPos);
+                 acceptIt();
+                    Identifier iAST = parseIdentifier();
+                    accept(Token.FROM);
+                    Expression eAST = parseExpression();
+                    accept(Token.TO);
+                    Expression eAST2 = parseExpression();
+                if (currentToken.kind == Token.DO) {
+                            accept(Token.DO);
+                            Command cAST = parseCommand();
+                            accept(Token.END);
+                            finish(commandPos);
+                            commandAST = new ForCommandFor(iAST, eAST, eAST2, cAST, commandPos);
+                              }
+                
+                 else    if (currentToken.kind == Token.WHILE) {
+                            accept(Token.WHILE);
+                             Expression eAST3= parseExpression();
+                             accept(Token.DO);
+                            Command cAST = parseCommand();
+                            accept(Token.END);
+                            finish(commandPos);
+                            commandAST = new ForCommandFormore(iAST, eAST, eAST2,eAST3, cAST, commandPos);
+                              }
+                 else    if (currentToken.kind == Token.UNTIL) {
+                            accept(Token.UNTIL);
+                             Expression eAST3= parseExpression();
+                             accept(Token.DO);
+                            Command cAST = parseCommand();
+                            accept(Token.END);
+                            finish(commandPos);
+                            commandAST = new ForCommandFormore(iAST, eAST, eAST2,eAST3, cAST, commandPos);
+                              }
                 }
+
                 break;
               default:
                 syntacticError("\"%\" cannot start a command", currentToken.spelling);
@@ -297,19 +335,23 @@ public class Parser {
           commandAST = new LetCommand(dAST, cAST, commandPos);
         }
         break;
-      case Token.IF: // FALTA CAMBIAR EL IF
-        {
-          acceptIt();
-          Expression eAST = parseExpression();
-          accept(Token.THEN);
-          Command c1AST = parseCommand();      // Se cambio de parseSingleCommand a parseCommand
-          accept(Token.ELSE);
-          Command c2AST = parseCommand();      // Se cambio de parseSingleCommand a parseCommand
-          accept(Token.END);
-          finish(commandPos);
-          commandAST = new IfCommand(eAST, c1AST, c2AST, commandPos);
-        }
-        break;
+            case Token.IF: {
+                acceptIt();
+                Expression e1AST = parseExpression();
+                accept(Token.THEN);
+                Command c1AST = parseCommand();
+                Command c2AST = null;
+                if (currentToken.kind == Token.ELSIF)
+                    c2AST = parseElsif(); //Lamada a funcion auxiliar para parsear los elsif opcionales
+                else {
+                    accept(Token.ELSE);
+                    c2AST = parseCommand();
+                }
+                accept(Token.END);
+                finish(commandPos);
+                commandAST = new IfCommand(e1AST, c1AST, c2AST, commandPos);
+            }
+            break;
 
       case Token.CHOOSE: // Se agrega choose 
         {
@@ -436,14 +478,14 @@ public class Parser {
         }
         break;
 
-        case Token.PASS:
+    /*    case Token.PASS:
         {
           acceptIt();
           accept(Token.END);
           finish(commandPos);
           commandAST = new EmptyCommand(commandPos);
         }
-        break;
+        break;*/
         
       default:
         syntacticError("\"%\" cannot start a command", currentToken.spelling);
@@ -906,12 +948,13 @@ public class Parser {
             declarationAST = new VarDeclaration(iAST, tAST, declarationPos);
           }
           break;
-          case Token.INITIALIZE:    // Regla nueva
+
+          case Token.BECOMES:    // Regla nueva
           {
-            acceptIt();
-            Expression eAST = parseExpression();
-            finish(declarationPos);
-            declarationAST = new InitVarDeclaration(iAST, eAST, declarationPos);
+                    acceptIt();
+                    Expression eAST = parseExpression();
+                    finish(declarationPos);
+                    declarationAST = new VarInitialized(iAST, eAST, declarationPos);
           }
           break;
 
@@ -979,6 +1022,33 @@ public class Parser {
 
   
   
+///////////////////////////////////////////////////////////////////////////////
+//
+// Auxiliar para parsear el elsif recursivamente
+//
+///////////////////////////////////////////////////////////////////////////////
+
+    Command parseElsif() throws SyntaxError {
+        SourcePosition commandPos = new SourcePosition();
+        start(commandPos);
+        Command cAST = null;
+        accept(Token.ELSIF);
+        Expression eAST = parseExpression();
+        accept(Token.THEN);
+        Command cAUX = parseCommand();
+        if (currentToken.kind == Token.ELSIF) {
+            finish(commandPos);
+            //Recursion de cola para guardar los elsif como jerarquia
+            cAST = new ElsifCommand(eAST, cAUX, parseElsif(), commandPos);
+        } else { //Caso que no exista otro elsif se parsea el comando del else, se deja como hoja en la jerarquia del elsif
+            accept(Token.ELSE);
+            Command elseCommand = parseCommand();
+            finish(commandPos);
+            cAST = new ElsifCommand(eAST, cAUX, elseCommand, commandPos);
+        }
+        return cAST;
+    }
+
   
   
   

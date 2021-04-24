@@ -21,6 +21,7 @@ public interface Visitor {
   public abstract Object visitCallCommand(CallCommand ast, Object o);
   public abstract Object visitEmptyCommand(EmptyCommand ast, Object o);
   public abstract Object visitIfCommand(IfCommand ast, Object o);
+  public abstract Object visitElsifCommand(ElsifCommand ast, Object o);
   public abstract Object visitLetCommand(LetCommand ast, Object o);
   public abstract Object visitSequentialCommand(SequentialCommand ast, Object o);
   public abstract Object visitWhileCommand(WhileCommand ast, Object o);
@@ -113,12 +114,14 @@ public interface Visitor {
     public abstract Object visitCaseLiterals(CaseLiterals ast, Object o);
     public abstract Object visitCaseIntegerLiteral(CaseIntegerLiteral ast, Object o);
     public abstract Object visitCaseCharacterLiteral(CaseCharacterLiteral ast, Object o);
-    
+        public abstract Object visitVarInitialized(VarInitialized ast, Object o);
     //Do
     public abstract Object visitDoUntilCommand(DoUntilCommand ast, Object o);
     public abstract Object visitDoWhileCommand(DoWhileCommand ast, Object o);
     //For
     public abstract Object visitForCommand(ForCommand ast, Object o);
+    public abstract Object visitForCommandFor(ForCommandFor ast, Object o);
+    public abstract Object visitForCommandFormore(ForCommandFormore ast, Object o);
     public abstract Object visitForDeclaration(ForDeclaration ast, Object o);
     public abstract Object visitForUntilCommand(ForUntilCommand ast, Object o);
     public abstract Object visitForWhileCommand(ForWhileCommand ast, Object o);

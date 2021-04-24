@@ -63,18 +63,18 @@ final class Token extends Object {
     CONST   = 6,
     DO      = 7,
     ELSE    = 8,
-    END     = 9,
-    FUNC    = 10,
-    FOR     = 11,   // Se agrego palabra reservada for
-    FROM    = 12,   // Se agrego palabra reservada from
-    IF      = 13,
-    IN      = 14,
-    LET     = 15,
-    LOOP    = 16,   // Se agrego palabra reservada loop
-    NOTHING      = 17,
-    OF          = 18,
-    PACKAGE     = 19,   // Se agrego palabra reservada par
-    PASS    = 20,   // Se agrego palabra reservada pass
+    ELSIF    = 9,
+    END     = 10,   // Se agrego palabra reservada for
+    FOR    = 11,   // Se agrego palabra reservada from
+    FROM    = 12,
+    FUNC       = 13,
+    IF      = 14,
+    IN      = 15,
+    LET     = 16,   // Se agrego palabra reservada loop
+    LOOP    = 17,
+    NOTHING        = 18,
+    OF     = 19,   // Se agrego palabra reservada par
+    PACKAGE     = 20,   // Se agrego palabra reservada pass      //no
     PRIVATE = 21,   // Se agrego palabra reservada private
     PROC    = 22,
     RECORD  = 23,
@@ -124,10 +124,11 @@ final class Token extends Object {
     "const",
     "do",
     "else",
+    "elsif",
     "end",
-    "func",
     "for",   // Se agregó el caracter de la palabra reservada for
     "from",   // Se agregó el caracter de la palabra reservada from
+    "func",
     "if",
     "in",
     "let",
@@ -135,7 +136,6 @@ final class Token extends Object {
     "nothing",
     "of",
     "package",   // Se agregó el caracter de la palabra reservada par
-    "pass",   // Se agregó el caracter de la palabra reservada pass
     "private",   // Se agregó el caracter de la palabra reservada private
     "proc",
     "record",
